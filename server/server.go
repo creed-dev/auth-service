@@ -3,16 +3,17 @@ package server
 import (
 	"auth-service/internal/services"
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func Start() error {
 	http.HandleFunc("/auth/signup", signupHandler)
-	fmt.Println("Сервер запущен на http://localhost:8080")
+	log.Println("Сервер запущен на http://localhost:8080")
 	err := http.ListenAndServe(":8080", nil)
 
 	if err != nil {
-		return fmt.Errorf("ошибка при запуске сервера\n%s", err)
+		return fmt.Errorf("%s", err)
 	}
 
 	return nil

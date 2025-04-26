@@ -3,11 +3,14 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
+
+var db *sql.DB
 
 func Connect() error {
 	err := godotenv.Load()
@@ -25,19 +28,37 @@ func Connect() error {
 		os.Getenv("POSTGRES_DB"),
 	)
 
-	db, err := sql.Open("postgres", connectionStr)
+	db, err = sql.Open("postgres", connectionStr)
 
 	if err != nil {
-		return fmt.Errorf("ошибка открытия подключения к базе данных\n%s", err)
+		return fmt.Errorf("%s", err)
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		return fmt.Errorf("ошибка пинга базы даных\n%s", err)
+		return fmt.Errorf("%s", err)
 	}
 
-	fmt.Println("Успешное подключение к базе данных")
+	log.Println("Успешное соединение с базой данных")
 
 	return nil
+}
+
+func Close() {
+	if db == nil {
+		return
+	}
+
+	err := db.Close()
+
+	if err != nil {
+		log.Printf("Ошибка при закрытии соединения с базой данных:\n%s", err)
+	} else {
+		log.Println("Соединение с базой данных закрыто")
+	}
+}
+
+func GetDatabase() *sql.DB {
+	return db
 }
