@@ -1,7 +1,6 @@
 package server
 
 import (
-	"auth-service/internal/services"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,7 +19,5 @@ func Start() error {
 }
 
 func signupHandler(w http.ResponseWriter, r *http.Request) {
-	services.IsUsernameExist("qwes")
-
 	fmt.Fprint(w, "signup")
 }
