@@ -2,3 +2,4 @@ docker/pgdata
 docker/redisdata
 .vscode
 .DS_Store
+.env
